@@ -2,7 +2,7 @@ import { getContainer } from "./container.js";
 
 export function toast({ message, type = "info", duration = 3000, sound = true, options }) {
     // Crear contenedor si no existe
-    const container = getContainer(options?.position || "top-right");
+    const container = getContainer(options?.position);
     // Crear notificación
     const notif = document.createElement("div");
     notif.className = `beep-notification ${type}`;
