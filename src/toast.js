@@ -1,4 +1,4 @@
-export function toast({ message, type = "info", duration = 3000, sonar = true, sound = true, options }) {
+export function toast({ message, type = "info", duration = 3000, sound = true, options }) {
     // Crear contenedor si no existe
     let container = document.querySelector(".beep-container");
 
