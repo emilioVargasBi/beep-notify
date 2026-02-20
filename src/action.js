@@ -8,6 +8,7 @@ export function action({
     rejectText = "Cancelar",
     duration = null,
     html = false,
+    options = null,
     onAccept = () => {},
     onReject = () => {},
     onTimeout = () => {}
@@ -33,8 +34,13 @@ export function action({
     rejectBtn.textContent = rejectText;
     rejectBtn.className = "beep-reject";
 
-    actions.appendChild(rejectBtn);
-    actions.appendChild(acceptBtn);
+    if (!options?.reverseButtons) {
+        actions.appendChild(rejectBtn);
+        actions.appendChild(acceptBtn);
+    } else {
+        actions.appendChild(acceptBtn);
+        actions.appendChild(rejectBtn);
+    }
     notif.appendChild(actions);
 
     container.appendChild(notif);
