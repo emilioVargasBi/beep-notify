@@ -11,11 +11,14 @@ export function toast({ message, type = "info", duration = 3000, sound = true, o
 
     // Crear contenedor si no existe
     const container = getContainer(options?.position);
+    const position = options?.position === ("top") ? "top" : "bottom";
     // Crear notificación
     const notif = document.createElement("div");
     notif.className = `beep-notification ${type}`;
     notif.style.borderLeft = `7px solid ${borderColor[type] || '#000000'}`;
     notif.style.pointerEvents = "auto"; // importante si hay botones
+    // Animación de entrada según posición
+    notif.classList.add('top');
 
     // Contenedor interno flex: icono a la izquierda, texto a la derecha
     const inner = document.createElement("div");

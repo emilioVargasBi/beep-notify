@@ -42,24 +42,33 @@
   border-radius: 0.5rem;
   min-width: 260px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.08); /* más sutil para light */
-  transform: translateX(24px);
   opacity: 0;
-  animation: enterToast 0.35s ease-out forwards;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   border: 1px solid #e4e4e7;
 }
 
-/* Entrada suave */
-@keyframes enterToast {
-  from { transform: translateY(-24px); opacity: 0; }
+.beep-notification.top {
+  animation: enterToastTop 0.35s ease-out forwards;
+}
+
+.beep-notification.bottom {
+  animation: enterToastBottom 0.35s ease-out forwards;
+}
+
+.beep-notification.fade-out {
+  animation: exitToast 0.5s ease-in forwards;
+}
+
+@keyframes enterToastTop {
+  from { transform: translateY(24px); opacity: 0; }
   to   { transform: translateX(0);  opacity: 1; }
 }
 
-/* Salida suave */
-.beep-notification.fade-out {
-  animation: exitToast 0.5s ease-in forwards; /* más suave */
+@keyframes enterToastBottom {
+  from { transform: translateY(-24px); opacity: 0; }
+  to   { transform: translateX(0);  opacity: 1; }
 }
 
 @keyframes exitToast {
