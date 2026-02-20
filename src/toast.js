@@ -1,11 +1,20 @@
 import { getContainer } from "./container.js";
 
 export function toast({ message, type = "info", duration = 3000, sound = true, options }) {
+    const borderColor = {
+        "success": "#065F46",
+        "error": "#B91C1C",
+        "info": "#1E40AF",
+        "warning": "#78350F",
+        "danger": "#B91C1C"
+    };
+
     // Crear contenedor si no existe
     const container = getContainer(options?.position);
     // Crear notificación
     const notif = document.createElement("div");
     notif.className = `beep-notification ${type}`;
+    notif.style.borderLeft = `7px solid ${borderColor[type] || '#000000'}`;
     notif.style.pointerEvents = "auto"; // importante si hay botones
 
     // Contenedor interno flex: icono a la izquierda, texto a la derecha
