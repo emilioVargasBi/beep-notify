@@ -8,17 +8,17 @@
   --color-danger: #FECACA;          /* rojo más intenso */
   
   /* Botones */
-  --color-btn-accept: rgba(34,197,94,0.2); /* verde acept */
+  --color-btn-accept: rgba(34,197,94,0.2);
+  --color-btn-accept-hover: #15803d;
   --color-btn-accept-text: #065F46;
-  --color-btn-reject: rgba(239,68,68,0.2); /* rojo reject */
+  --color-btn-reject: rgba(239,68,68,0.2);
+  --color-btn-reject-hover: rgba(239,68,68,0.3);
   --color-btn-reject-text: #B91C1C;
+
 }
 
 /* Contenedor principal */
 .beep-container {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
   z-index: 9999;
   display: flex;
   flex-direction: column;
@@ -104,6 +104,16 @@
 .beep-actions .beep-accept {
   background: var(--color-btn-accept);
   color: var(--color-btn-accept-text);
+}
+
+.beep-actions .beep-accept:hover {
+  background: var(--color-btn-accept-hover);
+  color: white;
+}
+
+.beep-actions .beep-reject:hover {
+  background: var(--color-btn-reject-text);
+  color: white;
 }
 
 .beep-actions .beep-reject {

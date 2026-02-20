@@ -1,18 +1,8 @@
+import { getContainer } from "./container.js";
+
 export function toast({ message, type = "info", duration = 3000, sound = true, options }) {
     // Crear contenedor si no existe
-    let container = document.querySelector(".beep-container");
-
-    if (!container) {
-        container = document.createElement("div");
-        container.className = "beep-container";
-        container.style.position = "fixed";
-        container.style.top = "20px";
-        container.style.right = "20px";
-        container.style.zIndex = 9999;
-        container.style.pointerEvents = "none"; // permite que las notificaciones tengan interacción
-        document.body.appendChild(container);
-    }
-
+    const container = getContainer(options?.position || "top-right");
     // Crear notificación
     const notif = document.createElement("div");
     notif.className = `beep-notification ${type}`;
