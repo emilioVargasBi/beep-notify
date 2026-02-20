@@ -41,16 +41,41 @@ export function toast({ message, type = "info", duration = 3000, sound = true, o
         audio.play();
     }
 
-    // Remover después de duration con animación
-    setTimeout(() => {
-        notif.classList.add('fade-out');
-        notif.addEventListener('animationend', () => notif.remove(), { once: true });
-    }, duration);
+    let timeoutId;
+    let startTime;
+    let remaining = duration;
+
+    function startTimer() {
+        startTime = Date.now();
+
+        timeoutId = setTimeout(() => {
+            notif.classList.add('fade-out');
+            notif.addEventListener('animationend', () => notif.remove(), { once: true });
+        }, remaining);
+    }
+
+    function pauseTimer() {
+        clearTimeout(timeoutId);
+        remaining -= Date.now() - startTime;
+    }
+
+    function resumeTimer() {
+        startTimer();
+    }
+
+    if (duration) {
+        startTimer();
+
+        if (options?.stopOnHover) {
+            notif.addEventListener('mouseenter', pauseTimer);
+            notif.addEventListener('mouseleave', resumeTimer);
+        }
+    }
 }
 
 // Función de iconos
 function getIconSVG(type) {
-    switch(type) {
+    switch (type) {
         case "success":
             return `<svg style="color:#65a30d" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>`;
         case "error":

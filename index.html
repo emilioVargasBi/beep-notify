@@ -19,7 +19,10 @@
 
         Beep.toast({
             type: 'success',
-            message: 'correcto'
+            message: 'correcto',
+            options: {
+                stopOnHover: true
+            }
         })
 
         // Contador para diferenciar mensajes
@@ -33,10 +36,12 @@
             counter++;
 
             Beep.toast({
-                message: `Registro creado correctamente!`,
+                message: `Registro ${counter} creado correctamente!`,
                 type: 'success',
                 options: {
-                    html: false
+                    html: false,
+                    position: 'bottom-right',
+                    stopOnHover: true
                 }
             });
         });
