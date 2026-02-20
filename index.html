@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Beep Test</title>
+    <link rel="stylesheet" href="./src/styles.css">
+</head>
+
+<body>
+    <button id="toastBtn">Notificación</button>
+    <button id="actionBtn">Notificación con acción</button>
+
+    <script type="module">
+        import Beep from "./src/index.js";
+
+        const toastBtn = document.getElementById('toastBtn');
+        const actionBtn = document.getElementById('actionBtn');
+
+        Beep.toast({
+            type: 'success',
+            message: 'correcto'
+        })
+
+        // Contador para diferenciar mensajes
+        let counter = 0;
+
+        // =====================
+        // Prueba de toast
+        // =====================
+        toastBtn.addEventListener('click', (el) => {
+            el.preventDefault();
+            counter++;
+
+            Beep.toast({
+                message: `Registro creado correctamente!`,
+                type: 'success',
+                options: {
+                    html: false
+                }
+            });
+        });
+
+        // =====================
+        // Prueba de action
+        // =====================
+        actionBtn.addEventListener('click', async (el) => {
+            el.preventDefault();
+
+            const id = 1;
+
+            Beep.action({
+                message: `¿Eliminar este elemento con id ${id}?`,
+                type: "danger",
+                acceptText: "Sí",
+                rejectText: "No",
+                onAccept: () => {
+                    Beep.toast({
+                        type: "success",
+                        message: 'Aceptado correctamente'
+                    });
+                },
+                onReject: () => Beep.toast({
+                    message: "Cancelado",
+                    type: "error"
+                }),
+                onTimeout: () => Beep.toast({
+                    message: "⏱️ Tiempo expirado",
+                    type: "warning"
+                })
+            });
+
+        });
+    </script>
+</body>
+
+</html>
