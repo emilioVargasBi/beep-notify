@@ -2,11 +2,11 @@ import { getContainer } from "./container.js";
 
 export function toast({ message, type = "info", duration = 3000, sound = true, options }) {
     const borderColor = {
-        "success": "#065F46",
-        "error": "#B91C1C",
-        "info": "#1E40AF",
-        "warning": "#78350F",
-        "danger": "#B91C1C"
+        "success": "var(--color-border-success)",
+        "error": "var(--color-border-error)",
+        "info": "var(--color-border-info)",
+        "warning": "var(--color-border-warning)",
+        "danger": "var(--color-border-danger)"
     };
 
     // Crear contenedor si no existe

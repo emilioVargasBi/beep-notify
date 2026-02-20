@@ -15,6 +15,11 @@
   --color-btn-reject-hover: rgba(239,68,68,0.3);
   --color-btn-reject-text: #B91C1C;
 
+  --color-border-success: #065F46;
+  --color-border-error: #B91C1C;
+  --color-border-info: #1E40AF;
+  --color-border-warning: #78350F;
+  --color-border-danger: #B91C1C;
 }
 
 /* Contenedor principal */
