@@ -1,152 +1,521 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
-    <title>Beep Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beep Notify - Framework-agnostic Notifications</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --border-color: #e5e5e5;
+            --accent: #7c3aed;
+            --accent-light: #ede9fe;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #0f0f0f;
+                --bg-secondary: #1a1a1a;
+                --text-primary: #ffffff;
+                --text-secondary: #a0a0a0;
+                --border-color: #333;
+                --accent-light: #4c1d95;
+            }
+        }
+
+        body[data-theme="dark"] {
+            --bg-primary: #0f0f0f;
+            --bg-secondary: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --border-color: #333;
+            --accent-light: #4c1d95;
+        }
+
+        body[data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --border-color: #e5e5e5;
+            --accent-light: #ede9fe;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.6;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(20px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -2px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: white;
+            color: #7c3aed;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            z-index: 100;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            scroll-margin-top: 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .demo-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .demo-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .demo-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .demo-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .demo-buttons {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .demo-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 0.75rem 1rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .demo-btn:hover {
+            background: var(--accent);
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        .demo-btn.secondary {
+            background: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .demo-btn.secondary:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .feature-item {
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-item h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-item p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            margin-top: 4rem;
+        }
+    </style>
 </head>
 
 <body>
-    <button id="toastBtn">Notificación (3s)</button>
-    <button id="actionBtn">Notificación con acción (5s)</button>
-    <button id="successBtn">Success (2s)</button>
-    <button id="errorBtn">Error (4s)</button>
+    <button class="theme-toggle" id="themeToggle">🌙</button>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Beep Notify</h1>
+            <p class="subtitle">Framework-agnostic notification system for modern web applications</p>
+            <button class="cta-button" onclick="document.getElementById('demo').scrollIntoView({ behavior: 'smooth' })">
+                Explorar Demo →
+            </button>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="container section">
+        <div class="features">
+            <div class="feature-item">
+                <div class="feature-icon">⚡</div>
+                <h4>Lightning Fast</h4>
+                <p>Notificaciones optimizadas sin dependencias externas</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🎨</div>
+                <h4>Totalmente Personalizable</h4>
+                <p>Temas oscuros, posiciones y estilos a tu medida</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">📱</div>
+                <h4>Responsive</h4>
+                <p>Funciona perfectamente en todos los dispositivos</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🔧</div>
+                <h4>Framework Agnostic</h4>
+                <p>Úsalo con cualquier framework o vanilla JS</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="container section">
+        <h2 class="section-title">Demo Interactiva</h2>
+        <div class="demo-grid">
+            <!-- Toast Notifications -->
+            <div class="demo-card">
+                <h3>✅ Éxito</h3>
+                <p>Notificación de éxito con auto-dismiss</p>
+                <div class="demo-buttons">
+                    <button class="demo-btn" data-type="success">Mostrar</button>
+                </div>
+            </div>
+
+            <div class="demo-card">
+                <h3>ℹ️ Información</h3>
+                <p>Notificación informativa con estilo moderno</p>
+                <div class="demo-buttons">
+                    <button class="demo-btn" data-type="info">Mostrar</button>
+                </div>
+            </div>
+
+            <div class="demo-card">
+                <h3>⚠️ Advertencia</h3>
+                <p>Notificación de advertencia importante</p>
+                <div class="demo-buttons">
+                    <button class="demo-btn" data-type="warning">Mostrar</button>
+                </div>
+            </div>
+
+            <div class="demo-card">
+                <h3>❌ Error</h3>
+                <p>Notificación de error con detalles</p>
+                <div class="demo-buttons">
+                    <button class="demo-btn" data-type="error">Mostrar</button>
+                </div>
+            </div>
+
+            <div class="demo-card">
+                <h3>🗑️ Peligro</h3>
+                <p>Notificación crítica/acción peligrosa</p>
+                <div class="demo-buttons">
+                    <button class="demo-btn" data-type="danger">Mostrar</button>
+                </div>
+            </div>
+
+            <div class="demo-card">
+                <h3>❓ Confirmación</h3>
+                <p>Solicitar confirmación del usuario</p>
+                <div class="demo-buttons">
+                    <button class="demo-btn" data-action="confirm">Mostrar</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Positions Demo -->
+    <section class="container section">
+        <h2 class="section-title">Posiciones Disponibles</h2>
+        <div class="demo-grid">
+            <div class="demo-card">
+                <h3>Superior Izquierda</h3>
+                <p>Posición top-left</p>
+                <div class="demo-buttons">
+                    <button class="demo-btn" data-position="top-left">Demo</button>
+                </div>
+            </div>
+            <div class="demo-card">
+                <h3>Superior Centro</h3>
+                <p>Posición top-center</p>
+                <div class="demo-buttons">
+                    <button class="demo-btn" data-position="top-center">Demo</button>
+                </div>
+            </div>
+            <div class="demo-card">
+                <h3>Superior Derecha</h3>
+                <p>Posición top-right</p>
+                <div class="demo-buttons">
+                    <button class="demo-btn" data-position="top-right">Demo</button>
+                </div>
+            </div>
+            <div class="demo-card">
+                <h3>Inferior Izquierda</h3>
+                <p>Posición bottom-left</p>
+                <div class="demo-buttons">
+                    <button class="demo-btn" data-position="bottom-left">Demo</button>
+                </div>
+            </div>
+            <div class="demo-card">
+                <h3>Inferior Centro</h3>
+                <p>Posición bottom-center</p>
+                <div class="demo-buttons">
+                    <button class="demo-btn" data-position="bottom-center">Demo</button>
+                </div>
+            </div>
+            <div class="demo-card">
+                <h3>Inferior Derecha</h3>
+                <p>Posición bottom-right (default)</p>
+                <div class="demo-buttons">
+                    <button class="demo-btn" data-position="bottom-right">Demo</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2026 Beep Notify - Created with ❤️ by Emilio Vargas Millán</p>
+    </footer>
 
     <script type="module">
         import Beep from "./src/index.js";
 
-        const toastBtn = document.getElementById('toastBtn');
-        const actionBtn = document.getElementById('actionBtn');
-        const successBtn = document.getElementById('successBtn');
-        const errorBtn = document.getElementById('errorBtn');
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
 
-        // Notificación inicial
-        Beep.toast({
-            type: 'success',
-            message: 'Bienvenido! Prueba los botones para ver la barra de progreso.',
-            duration: 4000,
-            options: {
-                stopOnHover: true
-            }
-        })
+        // Check system preference or local storage
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
 
-        // Contador para diferenciar mensajes
-        let counter = 0;
+        function updateTheme(theme) {
+            html.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
 
-        // =====================
-        // Prueba de toast
-        // =====================
-        toastBtn.addEventListener('click', (el) => {
-            el.preventDefault();
-            counter++;
+        updateTheme(initialTheme);
 
-            Beep.toast({
-                message: `Registro ${counter} creado correctamente!`,
-                type: 'success',
-                duration: 3000,
-                options: {
-                    html: false,
-                    position: 'bottom-right',
-                    stopOnHover: true
-                }
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            updateTheme(newTheme);
+        });
+
+        // Toast Demo
+        document.querySelectorAll('[data-type]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const type = btn.getAttribute('data-type');
+                const messages = {
+                    success: '✅ ¡Operación completada exitosamente!',
+                    info: 'ℹ️ Información importante para ti',
+                    warning: '⚠️ ¡Cuidado con esta acción!',
+                    error: '❌ Ha ocurrido un error inesperado',
+                    danger: '🗑️ Esta acción no se puede deshacer'
+                };
+
+                Beep.toast({
+                    message: messages[type],
+                    type: type,
+                    duration: 3000,
+                    options: {
+                        stopOnHover: true
+                    }
+                });
             });
         });
 
-        // =====================
-        // Prueba de action
-        // =====================
-        actionBtn.addEventListener('click', () => {
-            Beep.action({
-                message: '¿Estás seguro de que deseas continuar?',
-                type: 'warning',
-                duration: 5000,
-                acceptText: 'Sí',
-                rejectText: 'No',
-                options: {
-                    position: 'top-center'
-                },
-                onAccept: () => {
-                    console.log('Aceptado');
-                    Beep.toast({
-                        message: '¡Accionado correctamente!',
-                        type: 'success',
-                        duration: 2000
-                    });
-                },
-                onReject: () => {
-                    console.log('Rechazado');
-                }
+        // Action Demo
+        document.querySelectorAll('[data-action]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                Beep.action({
+                    message: '¿Estás seguro de que deseas continuar?',
+                    type: 'warning',
+                    acceptText: 'Sí, continuar',
+                    rejectText: 'Cancelar',
+                    onAccept: () => {
+                        Beep.toast({
+                            message: '✅ ¡Acción confirmada!',
+                            type: 'success',
+                            duration: 2000
+                        });
+                    },
+                    onReject: () => {
+                        Beep.toast({
+                            message: '❌ Acción cancelada',
+                            type: 'error',
+                            duration: 2000
+                        });
+                    }
+                });
             });
         });
 
-        // =====================
-        // Prueba de success
-        // =====================
-        successBtn.addEventListener('click', () => {
-            Beep.toast({
-                message: 'Operación completada exitosamente',
-                type: 'success',
-                duration: 2000,
-                options: {
-                    position: 'top-left'
-                }
+        // Position Demo
+        document.querySelectorAll('[data-position]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const position = btn.getAttribute('data-position');
+                console.log(position)
+                const positionText = position.replace(/[-]/g, ' ');
+
+                Beep.toast({
+                    message: `📍 Notificación en ${positionText}`,
+                    type: 'info',
+                    duration: 2000,
+                    options: {
+                        position: position,
+                        stopOnHover: true
+                    }
+                });
             });
-        });
-
-        // =====================
-        // Prueba de error
-        // =====================
-        errorBtn.addEventListener('click', () => {
-            Beep.action({
-                message: 'Ha ocurrido un error. ¿Deseas reintentar?',
-                type: 'error',
-                duration: 4000,
-                acceptText: 'Reintentar',
-                rejectText: 'Cancelar',
-                onAccept: () => {
-                    Beep.toast({
-                        message: 'Reintentando...',
-                        type: 'info',
-                        duration: 2000
-                    });
-                },
-                onReject: () => {
-                    console.log('Error cancelado');
-                },
-                onTimeout: () => {
-                    Beep.toast({
-                        message: 'Tiempo para reintentar expirado',
-                        type: 'error'
-                    })
-                }
-            });
-        });
-        actionBtn.addEventListener('click', async (el) => {
-            el.preventDefault();
-
-            const id = 1;
-
-            Beep.action({
-                message: `¿Eliminar este elemento con id ${id}?`,
-                type: "danger",
-                acceptText: "Yes",
-                rejectText: "No",
-                onAccept: () => {
-                    Beep.toast({
-                        type: "success",
-                        message: 'Aceptado correctamente'
-                    });
-                },
-                onReject: () => Beep.toast({
-                    message: "Cancelado",
-                    type: "error"
-                }),
-                onTimeout: () => Beep.toast({
-                    message: "⏱️ Tiempo expirado",
-                    type: "warning"
-                })
-            });
-
         });
     </script>
 </body>

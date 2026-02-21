@@ -1,9 +1,10 @@
 export function getContainer(position = 'bottom-right') {
-    let container = document.querySelector(".beep-container");
+    let container = document.querySelector(`.beep-container[data-position="${position}"]`);
 
     if (!container) {
         container = document.createElement("div");
         container.className = "beep-container";
+        container.setAttribute('data-position', position);
         container.style.zIndex = 9999;
 
         switch(position) {
