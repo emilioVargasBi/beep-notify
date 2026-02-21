@@ -7,18 +7,24 @@
 </head>
 
 <body>
-    <button id="toastBtn">Notificación</button>
-    <button id="actionBtn">Notificación con acción</button>
+    <button id="toastBtn">Notificación (3s)</button>
+    <button id="actionBtn">Notificación con acción (5s)</button>
+    <button id="successBtn">Success (2s)</button>
+    <button id="errorBtn">Error (4s)</button>
 
     <script type="module">
         import Beep from "./src/index.js";
 
         const toastBtn = document.getElementById('toastBtn');
         const actionBtn = document.getElementById('actionBtn');
+        const successBtn = document.getElementById('successBtn');
+        const errorBtn = document.getElementById('errorBtn');
 
+        // Notificación inicial
         Beep.toast({
             type: 'success',
-            message: 'correcto',
+            message: 'Bienvenido! Prueba los botones para ver la barra de progreso.',
+            duration: 4000,
             options: {
                 stopOnHover: true
             }
@@ -37,6 +43,7 @@
             Beep.toast({
                 message: `Registro ${counter} creado correctamente!`,
                 type: 'success',
+                duration: 3000,
                 options: {
                     html: false,
                     position: 'bottom-right',
@@ -48,6 +55,72 @@
         // =====================
         // Prueba de action
         // =====================
+        actionBtn.addEventListener('click', () => {
+            Beep.action({
+                message: '¿Estás seguro de que deseas continuar?',
+                type: 'warning',
+                duration: 5000,
+                acceptText: 'Sí',
+                rejectText: 'No',
+                options: {
+                    position: 'top-center'
+                },
+                onAccept: () => {
+                    console.log('Aceptado');
+                    Beep.toast({
+                        message: '¡Accionado correctamente!',
+                        type: 'success',
+                        duration: 2000
+                    });
+                },
+                onReject: () => {
+                    console.log('Rechazado');
+                }
+            });
+        });
+
+        // =====================
+        // Prueba de success
+        // =====================
+        successBtn.addEventListener('click', () => {
+            Beep.toast({
+                message: 'Operación completada exitosamente',
+                type: 'success',
+                duration: 2000,
+                options: {
+                    position: 'top-left'
+                }
+            });
+        });
+
+        // =====================
+        // Prueba de error
+        // =====================
+        errorBtn.addEventListener('click', () => {
+            Beep.action({
+                message: 'Ha ocurrido un error. ¿Deseas reintentar?',
+                type: 'error',
+                duration: 4000,
+                acceptText: 'Reintentar',
+                rejectText: 'Cancelar',
+                onAccept: () => {
+                    Beep.toast({
+                        message: 'Reintentando...',
+                        type: 'info',
+                        duration: 2000
+                    });
+                },
+                onReject: () => {
+                    console.log('Error cancelado');
+                },
+                onTimeout: () => {
+                    Beep.toast({
+                        message: 'Tiempo para reintentar expirado',
+                        type: 'error'
+                    })
+                }
+            });
+        });
         actionBtn.addEventListener('click', async (el) => {
             el.preventDefault();
 
