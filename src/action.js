@@ -1,5 +1,4 @@
 import { getContainer } from "./container.js";
-import { playSound } from "./sound.js";
 
 export function action({
     message,

@@ -26,6 +26,7 @@
 .beep-container {
   z-index: 9999;
   display: flex;
+  position: fixed;
   flex-direction: column;
   gap: 0.75rem;
   pointer-events: none;

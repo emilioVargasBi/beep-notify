@@ -4,7 +4,6 @@ export function getContainer(position = 'bottom-right') {
     if (!container) {
         container = document.createElement("div");
         container.className = "beep-container";
-        container.style.position = "fixed";
         container.style.zIndex = 9999;
 
         switch(position) {
