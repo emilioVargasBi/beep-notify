@@ -1,6 +1,7 @@
 import { getContainer } from "./container.js";
+import { playSound } from "./sound.js";
 
-export function toast({ message, type = "info", duration = 3000, sound = true, options }) {
+export function toast({ message, type = "info", duration = 3000, sound = false, options }) {
     const borderColor = {
         "success": "var(--color-border-success)",
         "error": "var(--color-border-error)",
@@ -49,8 +50,7 @@ export function toast({ message, type = "info", duration = 3000, sound = true, o
 
     // Sonido
     if (sound) {
-        const audio = new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAIlYAAESsAAACABAAZGF0YQAAAAA=');
-        audio.play();
+        playSound();
     }
 
     let timeoutId;

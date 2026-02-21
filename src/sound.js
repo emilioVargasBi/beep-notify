@@ -1,4 +1,8 @@
-export function playSound() {
-    const audio = new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAIlYAAESsAAACABAAZGF0YQAAAAA=');
-    audio.play().catch(() => {});
+import beepSound from './assets/sounds/beep1.m4a';
+
+export function playSound(sound = true) {
+  if (!sound) return;
+
+  const audio = new Audio(beepSound);
+  audio.play();
 }
