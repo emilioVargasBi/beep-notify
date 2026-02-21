@@ -12,9 +12,11 @@ export function action({
     onReject = () => {},
     onTimeout = () => {}
 }) {
-    const container = getContainer();
+    const container = getContainer(options?.position);
+    const position = container.style.bottom && container.style.bottom !== "" ? "top" : "bottom";
+
     const notif = document.createElement("div");
-    notif.className = `beep-notification ${type}`;
+    notif.className = `beep-notification ${type} ${position}`;
 
     // Contenido
     const content = document.createElement("div");
