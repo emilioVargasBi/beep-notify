@@ -281,8 +281,18 @@
         import Beep from "./src/index.js";
 
         Beep.toast({
-            message: 'adsfasdf',
+            message: 'primero',
             type: 'success',
+            duration: 600000,
+            options: {
+                position: 'bottom-right',
+                stopOnHover: true,
+                closeButton: true
+            }
+        })
+        Beep.toast({
+            message: 'segundo',
+            type: 'info',
             duration: 600000,
             options: {
                 position: 'bottom-right',
@@ -290,17 +300,8 @@
             }
         })
         Beep.toast({
-            message: 'adsfasdf',
-            type: 'success',
-            duration: 600000,
-            options: {
-                position: 'bottom-right',
-                stopOnHover: true
-            }
-        })
-        Beep.toast({
-            message: 'adsfasdf',
-            type: 'success',
+            message: 'tercero',
+            type: 'error',
             duration: 600000,
             options: {
                 position: 'bottom-right',
@@ -532,6 +533,7 @@
         });
 
         // Position Demo
+        /*
         document.querySelectorAll('[data-position]').forEach(btn => {
             btn.addEventListener('click', () => {
                 const position = btn.getAttribute('data-position');
@@ -549,6 +551,7 @@
                 });
             });
         });
+        */
     </script>
 </body>
 

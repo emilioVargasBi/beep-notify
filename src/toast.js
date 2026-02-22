@@ -32,6 +32,20 @@ export function toast({ message, type = "info", duration = 3000, sound = false, 
     const textSpan = document.createElement("div");
     textSpan.className = "beep-text";
 
+    // botón de cerrar
+    if (options?.closeButton) {
+        const closeBtn = document.createElement("span");
+        closeBtn.className = "beep-close";
+        closeBtn.innerHTML = "x";
+    
+        closeBtn.addEventListener("click", () => {
+        notif.classList.add("fade-out");
+        notif.addEventListener("animationend", () => notif.remove(), { once: true });
+        });
+
+        inner.appendChild(closeBtn);
+    }
+
     if (options && options.html) {
         textSpan.innerHTML = message;
     } else {
