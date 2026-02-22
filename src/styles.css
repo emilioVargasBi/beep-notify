@@ -74,7 +74,15 @@ html[data-theme="dark"] {
   position: fixed;
   flex-direction: column;
   gap: 0.75rem;
-  pointer-events: none;
+  pointer-events: auto;
+  transition: all 0.25s ease;
+}
+
+/* Hover sobre el contenedor O sobre cualquier notificación */
+.beep-container:hover .beep-notification:nth-child(-n+3),
+.beep-container .beep-notification:nth-child(-n+3):hover {
+  --stack-offset: 0px;
+  --toast-scale: 1;
 }
 
 /* Notificación base */
@@ -87,12 +95,31 @@ html[data-theme="dark"] {
   padding: 0.75rem 1.25rem;
   border-radius: 0.5rem;
   min-width: 260px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08); /* más sutil para light */
+  box-shadow: 0 4px 16px rgba(0,0,0,0.8); /* más sutil para light */
   opacity: 0;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   border: 1px solid #e4e4e7;
+  z-index: 9000;
+  --toast-scale: 1;
+  transform: scale(var(--toast-scale,1));
+  margin-top: var(--stack-offset,0px);
+  transition: transform 0.25s ease, margin-top 0.25s ease;
+}
+
+.beep-notification:nth-child(2) {
+  --stack-offset: -50px;
+  --toast-scale: 0.95;
+  z-index: 8999;
+  margin-top: var(--stack-offset);
+}
+
+.beep-notification:nth-child(3) {
+  --stack-offset: -50px;
+  --toast-scale: 0.90;
+  z-index: 8998;
+  margin-top: var(--stack-offset);
 }
 
 html[data-theme="dark"] .beep-notification {
@@ -113,18 +140,18 @@ html[data-theme="dark"] .beep-notification {
 }
 
 @keyframes enterToastTop {
-  from { transform: translateY(24px); opacity: 0; }
-  to   { transform: translateX(0);  opacity: 1; }
+  from { transform: translateY(24px) scale(var(--toast-scale)); opacity: 0; }
+  to   { transform: translateX(0) scale(var(--toast-scale));  opacity: 1; }
 }
 
 @keyframes enterToastBottom {
-  from { transform: translateY(-24px); opacity: 0; }
-  to   { transform: translateX(0);  opacity: 1; }
+  from { transform: translateY(-24px) scale(var(--toast-scale)); opacity: 0; }
+  to   { transform: translateX(0) scale(var(--toast-scale));  opacity: 1; }
 }
 
 @keyframes exitToast {
-  from { transform: translateX(0); opacity: 1; }
-  to   { transform: translateX(24px); opacity: 0; }
+  from { transform: translateX(0) scale(var(--toast-scale)); opacity: 1; }
+  to   { transform: translateX(24px) scale(var(--toast-scale)); opacity: 0; }
 }
 
 /* Tipos de notificación */

@@ -277,6 +277,38 @@
 </head>
 
 <body>
+    <script type="module">
+        import Beep from "./src/index.js";
+
+        Beep.toast({
+            message: '¡Bienvenido a la demo de Beep Notify!',
+            type: 'success',
+            duration: 600000,
+            options: {
+                position: 'top-right',
+                stopOnHover: true
+            }
+        })
+        Beep.toast({
+            message: '¡Bienvenido a la demo de Beep Notify!',
+            type: 'success',
+            duration: 600000,
+            options: {
+                position: 'top-right',
+                stopOnHover: true
+            }
+        })
+        Beep.toast({
+            message: '¡Bienvenido a la demo de Beep Notify!',
+            type: 'success',
+            duration: 600000,
+            options: {
+                position: 'top-right',
+                stopOnHover: true
+            }
+        })
+
+    </script>
     <button class="theme-toggle" id="themeToggle">🌙</button>
 
     <!-- Hero Section -->
@@ -455,11 +487,11 @@
             btn.addEventListener('click', () => {
                 const type = btn.getAttribute('data-type');
                 const messages = {
-                    success: '✅ ¡Operación completada exitosamente!',
-                    info: 'ℹ️ Información importante para ti',
-                    warning: '⚠️ ¡Cuidado con esta acción!',
-                    error: '❌ Ha ocurrido un error inesperado',
-                    danger: '🗑️ Esta acción no se puede deshacer'
+                    success: '¡Operación completada exitosamente!',
+                    info: 'Información importante para ti',
+                    warning: '¡Cuidado con esta acción!',
+                    error: 'Ha ocurrido un error inesperado',
+                    danger: 'Esta acción no se puede deshacer'
                 };
 
                 Beep.toast({
