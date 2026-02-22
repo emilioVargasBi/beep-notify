@@ -12,7 +12,7 @@ export function toast({ message, type = "info", duration = 3000, sound = false, 
 
     // Crear contenedor si no existe
     const container = getContainer(options?.position);
-    const position = container.style.bottom && container.style.bottom !== "" ? "top" : "bottom";
+    const position = container.style.top && container.style.top !== "" ? "top" : "bottom";
     // Crear notificación
     const notif = document.createElement("div");
     notif.className = `beep-notification ${type} ${position}`;
