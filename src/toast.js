@@ -1,7 +1,7 @@
 import { getContainer } from "./container.js";
 import { playSound } from "./sound.js";
 
-export function toast({ message, type = "info", duration = 3000, sound = false, options }) {
+export function toast({ message, type = "info", duration = null, sound = false, options }) {
     const borderColor = {
         "success": "var(--color-border-success)",
         "error": "var(--color-border-error)",
@@ -37,10 +37,10 @@ export function toast({ message, type = "info", duration = 3000, sound = false, 
         const closeBtn = document.createElement("span");
         closeBtn.className = "beep-close";
         closeBtn.innerHTML = "x";
-    
+
         closeBtn.addEventListener("click", () => {
-        notif.classList.add("fade-out");
-        notif.addEventListener("animationend", () => notif.remove(), { once: true });
+            notif.classList.add("fade-out");
+            notif.addEventListener("animationend", () => notif.remove(), { once: true });
         });
 
         inner.appendChild(closeBtn);
@@ -58,7 +58,7 @@ export function toast({ message, type = "info", duration = 3000, sound = false, 
     notif.appendChild(inner);
 
     // **Agregar notificación al contenedor**
-    container.prepend(notif);
+    container.appendChild(notif);
 
     // Sonido
     if (sound) {
@@ -68,26 +68,84 @@ export function toast({ message, type = "info", duration = 3000, sound = false, 
     let timeoutId;
     let startTime;
     let remaining = duration;
+    let totalDuration = duration;
+    let totalElapsed = 0;
+    let progressBar;
+    let progressInterval;
+    let counterInterval;
 
-    function startTimer() {
-        startTime = Date.now();
-
-        timeoutId = setTimeout(() => {
-            notif.classList.add('fade-out');
-            notif.addEventListener('animationend', () => notif.remove(), { once: true });
-        }, remaining);
-    }
-
-    function pauseTimer() {
-        clearTimeout(timeoutId);
-        remaining -= Date.now() - startTime;
-    }
-
-    function resumeTimer() {
-        startTimer();
-    }
 
     if (duration) {
+        function startTimer() {
+            startTime = Date.now();
+
+            timeoutId = setTimeout(() => {
+                notif.classList.add('fade-out');
+                notif.addEventListener('animationend', () => notif.remove(), { once: true });
+            }, remaining);
+
+            // barra de progreso
+            progressBar = document.createElement("div");
+            progressBar.className = "beep-progress";
+            progressBar.style.width = '100%';
+            notif.appendChild(progressBar);
+
+            if (options?.showProgressBar) {
+                progressInterval = setInterval(() => {
+                    const currentElapsed = totalElapsed + (Date.now() - startTime);
+                    const progress = Math.max(0, (totalDuration - currentElapsed) / totalDuration * 100);
+                    progressBar.style.width = progress + '%';
+                }, 50);
+    
+                counterInterval = setInterval(() => {
+                    const currentElapsed = totalElapsed + (Date.now() - startTime);
+                    const timeLeft = Math.max(0, totalDuration - currentElapsed);
+    
+                    if (timeLeft <= 0) {
+                        clearInterval(counterInterval);
+                    }
+                }, 100);
+            }
+
+        }
+
+        function pauseTimer() {
+            clearTimeout(timeoutId);
+            clearInterval(progressInterval);
+            clearInterval(counterInterval);
+
+            const elapsedThisSession = Date.now() - startTime;
+            totalElapsed += elapsedThisSession;
+            remaining -= elapsedThisSession;
+        }
+
+        function resumeTimer() {
+            startTime = Date.now();
+
+            timeoutId = setTimeout(() => {
+                notif.classList.add('fade-out');
+                notif.addEventListener('animationend', () => notif.remove(), { once: true });
+            }, remaining);
+
+            if (options?.showProgressBar) {
+                progressInterval = setInterval(() => {
+                    const currentElapsed = totalElapsed + (Date.now() - startTime);
+                    const progress = Math.max(0, (totalDuration - currentElapsed) / totalDuration * 100);
+                    progressBar.style.width = progress + '%';
+                }, 50);
+    
+                counterInterval = setInterval(() => {
+                    const currentElapsed = totalElapsed + (Date.now() - startTime);
+                    const timeLeft = Math.max(0, totalDuration - currentElapsed);
+                    counter.textContent = Math.ceil(timeLeft / 1000);
+    
+                    if (timeLeft <= 0) {
+                        clearInterval(counterInterval);
+                    }
+                }, 100);
+            }
+        }
+
         startTimer();
 
         if (options?.stopOnHover) {

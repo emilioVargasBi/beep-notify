@@ -283,7 +283,6 @@
         Beep.toast({
             message: 'primero',
             type: 'success',
-            duration: 600000,
             options: {
                 position: 'bottom-right',
                 stopOnHover: true,
@@ -297,7 +296,8 @@
             options: {
                 position: 'bottom-right',
                 stopOnHover: true,
-                closeButton: true
+                closeButton: true,
+                showProgressBar: true
             }
         })
         Beep.toast({
@@ -550,7 +550,8 @@
                     options: {
                         position: position,
                         stopOnHover: true,
-                        closeButton: true
+                        closeButton: true,
+                        showProgressBar: true
                     }
                 });
             });

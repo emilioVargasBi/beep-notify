@@ -78,10 +78,6 @@ html[data-theme="dark"] {
   transition: all 0.25s ease;
 }
 
-.beep-container .beep-notification {
-  display: none;
-}
-
 .beep-container .beep-notification:nth-child(-n+3) {
   display: block;
 }
@@ -95,6 +91,7 @@ html[data-theme="dark"] {
 
 /* Notificación base */
 .beep-notification {
+  display: none;
   pointer-events: auto;
   background: var(--color-background);
   color: var(--color-text);
@@ -105,8 +102,6 @@ html[data-theme="dark"] {
   min-width: 260px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.8); /* más sutil para light */
   opacity: 0;
-  display: flex;
-  flex-direction: column;
   gap: 0.5rem;
   z-index: 9000;
   --toast-scale: 1;
@@ -139,6 +134,7 @@ html[data-theme="dark"] .beep-notification {
 .beep-notification.bottom {
   animation: enterToastBottom 0.35s ease-out forwards;
   flex-direction: column-reverse;
+
   &:nth-child(2) {
     --stack-offset: -50px;
     --toast-scale: 0.95;
@@ -305,5 +301,27 @@ html[data-theme="dark"] .beep-actions .beep-reject:hover {
   &:hover {
     transform: scale(1.1);
     filter: brightness(1.2);
+  }
+}
+
+.beep-progress {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 100%;
+  height: 7px;
+  background: rgba(0,0,0,0.2);
+}
+
+html[data-theme="dark"] .beep-progress {
+  background: rgba(255,255,255,0.20);
+}
+
+@keyframes beep-progress-anim {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
   }
 }
