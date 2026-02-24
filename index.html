@@ -287,7 +287,7 @@
             options: {
                 position: 'bottom-right',
                 stopOnHover: true,
-                closeButton: true
+                closeButton: true,
             }
         })
         Beep.toast({
@@ -296,7 +296,8 @@
             duration: 600000,
             options: {
                 position: 'bottom-right',
-                stopOnHover: true
+                stopOnHover: true,
+                closeButton: true
             }
         })
         Beep.toast({
@@ -532,26 +533,28 @@
             });
         });
 
+        let count = 0
         // Position Demo
-        /*
         document.querySelectorAll('[data-position]').forEach(btn => {
             btn.addEventListener('click', () => {
                 const position = btn.getAttribute('data-position');
                 console.log(position)
                 const positionText = position.replace(/[-]/g, ' ');
 
+                count++;
+
                 Beep.toast({
-                    message: `📍 Notificación en ${positionText}`,
+                    message: `📍 Notificación en ${positionText} ${count}`,
                     type: 'info',
-                    duration: 2000,
+                    duration: 10000,
                     options: {
                         position: position,
-                        stopOnHover: true
+                        stopOnHover: true,
+                        closeButton: true
                     }
                 });
             });
         });
-        */
     </script>
 </body>
 

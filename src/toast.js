@@ -58,7 +58,7 @@ export function toast({ message, type = "info", duration = 3000, sound = false, 
     notif.appendChild(inner);
 
     // **Agregar notificación al contenedor**
-    container.appendChild(notif);
+    container.prepend(notif);
 
     // Sonido
     if (sound) {

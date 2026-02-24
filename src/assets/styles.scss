@@ -78,6 +78,14 @@ html[data-theme="dark"] {
   transition: all 0.25s ease;
 }
 
+.beep-container .beep-notification {
+  display: none;
+}
+
+.beep-container .beep-notification:nth-child(-n+3) {
+  display: block;
+}
+
 /* Hover sobre el contenedor O sobre cualquier notificación */
 .beep-container:hover .beep-notification:nth-child(-n+3),
 .beep-container .beep-notification:nth-child(-n+3):hover {
@@ -282,7 +290,7 @@ html[data-theme="dark"] .beep-actions .beep-reject:hover {
 
   background: var(--color-background);
   color: var(--color-text);
-  shadow: 0 2px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 
   display: flex;
   align-items: center;
