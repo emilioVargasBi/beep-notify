@@ -4,15 +4,21 @@
   "description": "Framework-agnostic JavaScript notification system for web applications.",
   "license": "MIT",
   "author": "Emilio Vargas Millán",
-  "type": "commonjs",
-  "main": "index.js",
+  "main": "dist/beep-notify.js",
+  "module": "dist/beep-notify.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
     "sass": "^1.97.3",
-    "vite": "^7.3.1"
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vite-plugin-dts": "^4.5.4"
   }
 }

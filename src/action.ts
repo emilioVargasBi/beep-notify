@@ -1,22 +1,24 @@
 import { getContainer } from "./container.js";
+import { ActionOptions } from "./types.js";
 
 export function action({
     message,
     type = "info",
+    position = "bottom-right",
     acceptText = "Aceptar",
     rejectText = "Cancelar",
     duration = null,
     html = false,
-    options = null,
+    options,
     onAccept = () => {},
     onReject = () => {},
     onTimeout = () => {}
-}) {
-    const container = getContainer(options?.position);
-    const position = container.style.bottom && container.style.bottom !== "" ? "top" : "bottom";
+}: ActionOptions): void {
+    const container = getContainer(position);
+    const positionName = container.style.bottom && container.style.bottom !== "" ? "top" : "bottom";
 
     const notif = document.createElement("div");
-    notif.className = `beep-notification ${type} ${position}`;
+    notif.className = `beep-notification ${type} ${positionName}`;
 
     // Contenido
     const content = document.createElement("div");

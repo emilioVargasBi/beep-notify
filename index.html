@@ -278,13 +278,13 @@
 
 <body>
     <script type="module">
-        import Beep from "./src/index.js";
+        import Beep from "./src/index.ts";
 
         Beep.toast({
             message: 'primero',
             type: 'success',
+            position: 'bottom-right',
             options: {
-                position: 'bottom-right',
                 stopOnHover: true,
                 closeButton: true,
             }
@@ -294,7 +294,6 @@
             type: 'info',
             duration: 600000,
             options: {
-                position: 'bottom-right',
                 stopOnHover: true,
                 closeButton: true,
                 showProgressBar: true
@@ -303,9 +302,9 @@
         Beep.toast({
             message: 'tercero',
             type: 'error',
+            position: 'bottom-right',
             duration: 600000,
             options: {
-                position: 'bottom-right',
                 stopOnHover: true
             }
         })
@@ -459,7 +458,7 @@
     </footer>
 
     <script type="module">
-        import Beep from "./src/index.js";
+        import Beep from "./src/index.ts";
 
         // Theme Toggle
         const themeToggle = document.getElementById('themeToggle');
@@ -546,9 +545,10 @@
                 Beep.toast({
                     message: `📍 Notificación en ${positionText} ${count}`,
                     type: 'info',
+                    position: position,
                     duration: 10000,
+                    sound: true,
                     options: {
-                        position: position,
                         stopOnHover: true,
                         closeButton: true,
                         showProgressBar: true
