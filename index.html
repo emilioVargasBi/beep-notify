@@ -277,7 +277,7 @@
 </head>
 
 <body>
-    <script type="module">
+    <!-- <script type="module">
         import Beep from "./src/index.ts";
 
         Beep.toast({
@@ -309,7 +309,7 @@
             }
         })
 
-    </script>
+    </script> -->
     <button class="theme-toggle" id="themeToggle">🌙</button>
 
     <!-- Hero Section -->
@@ -487,6 +487,7 @@
         document.querySelectorAll('[data-type]').forEach(btn => {
             btn.addEventListener('click', () => {
                 const type = btn.getAttribute('data-type');
+
                 const messages = {
                     success: '¡Operación completada exitosamente!',
                     info: 'Información importante para ti',
@@ -527,6 +528,13 @@
                             type: 'error',
                             duration: 2000
                         });
+                    },
+                    onTimeout: () => {
+                        Beep.toast({
+                            message: '⏰ Tiempo agotado, acción cancelada',
+                            type: 'info',
+                            duration: 2000
+                        })
                     }
                 });
             });
@@ -547,7 +555,6 @@
                     type: 'info',
                     position: position,
                     duration: 10000,
-                    sound: true,
                     options: {
                         stopOnHover: true,
                         closeButton: true,
