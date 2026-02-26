@@ -84,6 +84,7 @@ html[data-theme="dark"] {
 
 /* Hover sobre el contenedor O sobre cualquier notificación */
 .beep-container:hover .beep-notification:nth-child(-n+3),
+.beep-container.touch-hover .beep-notification:nth-child(-n+3),
 .beep-container .beep-notification:nth-child(-n+3):hover {
   --stack-offset: 0px;
   --toast-scale: 1;

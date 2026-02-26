@@ -48,6 +48,15 @@ export function getToastContainer(
         break;
     }
 
+    const guaranteedContainer = container;
+
+    guaranteedContainer.addEventListener("touchstart", () => {
+      guaranteedContainer.classList.add("touch-hover");
+    });
+    guaranteedContainer.addEventListener("touchend", () => {
+      guaranteedContainer.classList.remove("touch-hover");
+    });
+
     document.body.appendChild(container);
   }
 
