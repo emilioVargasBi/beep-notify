@@ -1,4 +1,4 @@
-import { getContainer } from "./container.js";
+import { getToastContainer } from "./ui/Containers/ToastContainer.js";
 import { ActionOptions } from "./types.js";
 
 export function action({
@@ -14,7 +14,7 @@ export function action({
     onReject = () => {},
     onTimeout = () => {}
 }: ActionOptions): void {
-    const container = getContainer(position);
+    const container = getToastContainer(position);
     const positionName = container.style.bottom && container.style.bottom !== "" ? "top" : "bottom";
 
     const notif = document.createElement("div");
