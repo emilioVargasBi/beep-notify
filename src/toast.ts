@@ -76,16 +76,16 @@ export function toast({
     playSound();
   }
 
-  let timeoutId: NodeJS.Timeout;
+  let timeoutId: ReturnType<typeof setTimeout>;
   let startTime: number;
-  let remaining: number = duration ?? 0;
+  let remaining = duration ?? 0;
   let totalDuration = duration ?? 0;
   let totalElapsed: number = 0;
   let progressBar: HTMLDivElement;
-  let progressInterval: NodeJS.Timeout;
-  let counterInterval: NodeJS.Timeout;
+  let progressInterval: ReturnType<typeof setTimeout>;
+  let counterInterval: ReturnType<typeof setTimeout>;
 
-  if (duration) {
+  if (duration != null) {
     function startTimer() {
       startTime = Date.now();
 
