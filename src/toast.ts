@@ -10,7 +10,6 @@ export function toast({
   sound = false,
   options,
 }: ToastOptions): void {
-
   const borderColor: Record<BeepType, string> = {
     success: "var(--color-border-success)",
     error: "var(--color-border-error)",
@@ -21,7 +20,8 @@ export function toast({
 
   // Crear contenedor si no existe
   const container = getToastContainer(position);
-  const positionName = container.style.top && container.style.top !== "" ? "top" : "bottom";
+  const positionName =
+    container.style.top && container.style.top !== "" ? "top" : "bottom";
   // Crear notificación
   const notif = document.createElement("div");
   notif.className = `beep-notification ${type} ${positionName}`;
@@ -96,13 +96,13 @@ export function toast({
         });
       }, remaining);
 
-      // barra de progreso
-      progressBar = document.createElement("div");
-      progressBar.className = "beep-progress";
-      progressBar.style.width = "100%";
-      notif.appendChild(progressBar);
-
       if (options?.showProgressBar) {
+        // barra de progreso
+        progressBar = document.createElement("div");
+        progressBar.className = "beep-progress";
+        progressBar.style.width = "100%";
+        notif.appendChild(progressBar);
+
         progressInterval = setInterval(() => {
           const currentElapsed = totalElapsed + (Date.now() - startTime);
           const progress = Math.max(
