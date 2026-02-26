@@ -1,9 +1,9 @@
-import { containerPosition } from './container';
+import { ContainerPosition } from './ui/Containers/ToastContainer';
 export type BeepType = "success" | "error" | "info" | "warning" | "danger";
 export interface ToastOptions {
     message: string;
     type?: BeepType;
-    position?: containerPosition;
+    position?: ContainerPosition;
     duration?: number | null;
     sound?: boolean;
     options?: {
@@ -16,7 +16,7 @@ export interface ToastOptions {
 export interface ActionOptions {
     message: string;
     type?: BeepType;
-    position?: containerPosition;
+    position?: ContainerPosition;
     acceptText?: string;
     rejectText?: string;
     duration?: number | null;

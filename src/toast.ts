@@ -1,4 +1,4 @@
-import { getContainer } from "./container";
+import { getToastContainer } from "./ui/Containers/ToastContainer";
 import { ToastOptions, BeepType } from "./types";
 import { playSound } from "./sound";
 
@@ -20,7 +20,7 @@ export function toast({
   };
 
   // Crear contenedor si no existe
-  const container = getContainer(position);
+  const container = getToastContainer(position);
   const positionName = container.style.top && container.style.top !== "" ? "top" : "bottom";
   // Crear notificación
   const notif = document.createElement("div");

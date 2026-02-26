@@ -31,7 +31,7 @@ function k(n = !0) {
   if (!n) return;
   new Audio("/sounds/beep1.m4a").play().catch((b) => console.error("Error al reproducir el sonido:", b));
 }
-function N({
+function I({
   message: n,
   type: e = "info",
   position: b = "bottom-right",
@@ -50,7 +50,7 @@ function N({
   const d = document.createElement("div");
   d.className = "beep-inner";
   const m = document.createElement("span");
-  m.className = "beep-icon", m.innerHTML = T(e);
+  m.className = "beep-icon", m.innerHTML = N(e);
   const u = document.createElement("div");
   if (u.className = "beep-text", i?.closeButton) {
     const v = document.createElement("span");
@@ -78,11 +78,11 @@ function N({
         const l = s + (Date.now() - a);
         Math.max(0, r - l) <= 0 && clearInterval(y);
       }, 100));
-    }, B = function() {
+    }, T = function() {
       clearTimeout(o), clearInterval(L), clearInterval(y);
       const l = Date.now() - a;
       s += l, c -= l;
-    }, I = function() {
+    }, B = function() {
       a = Date.now(), o = setTimeout(() => {
         t.classList.add("fade-out"), t.addEventListener("animationend", () => t.remove(), {
           once: !0
@@ -98,10 +98,10 @@ function N({
         Math.max(0, r - l) <= 0 && clearInterval(y);
       }, 100));
     };
-    v(), i?.stopOnHover && (t.addEventListener("mouseenter", B), t.addEventListener("mouseleave", I));
+    v(), i?.stopOnHover && (t.addEventListener("mouseenter", T), t.addEventListener("mouseleave", B));
   }
 }
-function T(n) {
+function N(n) {
   switch (n) {
     case "success":
       return '<svg style="color:#65a30d" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>';
@@ -150,7 +150,7 @@ function M({
   }, p);
 }
 const D = {
-  toast: N,
+  toast: I,
   action: M,
   playSound: k
 };

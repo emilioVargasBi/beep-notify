@@ -1,4 +1,4 @@
-export type containerPosition =
+export type ContainerPosition =
   | "top-right"
   | "top-left"
   | "bottom-right"
@@ -6,8 +6,8 @@ export type containerPosition =
   | "top-center"
   | "bottom-center";
 
-export function getContainer(
-  position: containerPosition = "bottom-right",
+export function getToastContainer(
+  position: ContainerPosition = "bottom-right",
 ): HTMLDivElement {
   let container = document.querySelector<HTMLDivElement>(
     `.beep-container[data-position="${position}"]`,
