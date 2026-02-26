@@ -23,82 +23,87 @@ function x(n = "bottom-right") {
         e.style.bottom = "1rem", e.style.left = "50%", e.style.transform = "translateX(-50%)";
         break;
     }
-    document.body.appendChild(e);
+    const c = e;
+    c.addEventListener("touchstart", () => {
+      c.classList.add("touch-hover");
+    }), c.addEventListener("touchend", () => {
+      c.classList.remove("touch-hover");
+    }), document.body.appendChild(e);
   }
   return e;
 }
 function k(n = !0) {
   if (!n) return;
-  new Audio("/sounds/beep1.m4a").play().catch((b) => console.error("Error al reproducir el sonido:", b));
+  new Audio("/sounds/beep1.m4a").play().catch((c) => console.error("Error al reproducir el sonido:", c));
 }
 function I({
   message: n,
   type: e = "info",
-  position: b = "bottom-right",
+  position: c = "bottom-right",
   duration: p = null,
   sound: E = !1,
-  options: i
+  options: d
 }) {
-  const C = {
+  const L = {
     success: "var(--color-border-success)",
     error: "var(--color-border-error)",
     info: "var(--color-border-info)",
     warning: "var(--color-border-warning)",
     danger: "var(--color-border-danger)"
-  }, h = x(b), w = h.style.top && h.style.top !== "" ? "top" : "bottom", t = document.createElement("div");
-  t.className = `beep-notification ${e} ${w}`, t.style.borderLeft = `7px solid ${C[e] || "#000000"}`, t.style.pointerEvents = "auto";
-  const d = document.createElement("div");
-  d.className = "beep-inner";
-  const m = document.createElement("span");
-  m.className = "beep-icon", m.innerHTML = N(e);
-  const u = document.createElement("div");
-  if (u.className = "beep-text", i?.closeButton) {
-    const v = document.createElement("span");
-    v.className = "beep-close", v.innerHTML = "x", v.addEventListener("click", () => {
+  }, b = x(c), C = b.style.top && b.style.top !== "" ? "top" : "bottom", t = document.createElement("div");
+  t.className = `beep-notification ${e} ${C}`, t.style.borderLeft = `7px solid ${L[e] || "#000000"}`, t.style.pointerEvents = "auto";
+  const m = document.createElement("div");
+  m.className = "beep-inner";
+  const u = document.createElement("span");
+  u.className = "beep-icon", u.innerHTML = N(e);
+  const v = document.createElement("div");
+  if (v.className = "beep-text", d?.closeButton) {
+    const h = document.createElement("span");
+    h.className = "beep-close", h.innerHTML = "x", h.addEventListener("click", () => {
       t.classList.add("fade-out"), t.addEventListener("animationend", () => t.remove(), {
         once: !0
       });
-    }), d.appendChild(v);
+    }), m.appendChild(h);
   }
-  i && i.html ? u.innerHTML = n : u.textContent = n, d.appendChild(m), d.appendChild(u), t.appendChild(d), h.appendChild(t), E && k();
-  let o, a, c = p ?? 0, r = p ?? 0, s = 0, f, L, y;
+  d && d.html ? v.innerHTML = n : v.textContent = n, m.appendChild(u), m.appendChild(v), t.appendChild(m), b.appendChild(t), E && k();
+  let o, a, l = p ?? 0, r = p ?? 0, s = 0, f, w, y;
   if (p != null) {
-    let v = function() {
+    let h = function() {
       a = Date.now(), o = setTimeout(() => {
         t.classList.add("fade-out"), t.addEventListener("animationend", () => t.remove(), {
           once: !0
         });
-      }, c), f = document.createElement("div"), f.className = "beep-progress", f.style.width = "100%", t.appendChild(f), i?.showProgressBar && (L = setInterval(() => {
-        const l = s + (Date.now() - a), g = Math.max(
+      }, l), d?.showProgressBar && (f = document.createElement("div"), f.className = "beep-progress", f.style.width = "100%", t.appendChild(f), w = setInterval(() => {
+        const i = s + (Date.now() - a), g = Math.max(
           0,
-          (r - l) / r * 100
+          (r - i) / r * 100
         );
         f.style.width = g + "%";
       }, 50), y = setInterval(() => {
-        const l = s + (Date.now() - a);
-        Math.max(0, r - l) <= 0 && clearInterval(y);
+        const i = s + (Date.now() - a);
+        Math.max(0, r - i) <= 0 && clearInterval(y);
       }, 100));
     }, T = function() {
-      clearTimeout(o), clearInterval(L), clearInterval(y);
-      const l = Date.now() - a;
-      s += l, c -= l;
+      clearTimeout(o), clearInterval(w), clearInterval(y);
+      const i = Date.now() - a;
+      s += i, l -= i;
     }, B = function() {
       a = Date.now(), o = setTimeout(() => {
         t.classList.add("fade-out"), t.addEventListener("animationend", () => t.remove(), {
           once: !0
         });
-      }, c), i?.showProgressBar && (L = setInterval(() => {
-        const l = s + (Date.now() - a), g = Math.max(
+      }, l), d?.showProgressBar && (w = setInterval(() => {
+        const i = s + (Date.now() - a), g = Math.max(
           0,
-          (r - l) / r * 100
+          (r - i) / r * 100
         );
         f.style.width = g + "%";
       }, 50), y = setInterval(() => {
-        const l = s + (Date.now() - a);
-        Math.max(0, r - l) <= 0 && clearInterval(y);
+        const i = s + (Date.now() - a);
+        Math.max(0, r - i) <= 0 && clearInterval(y);
       }, 100));
     };
-    v(), i?.stopOnHover && (t.addEventListener("mouseenter", T), t.addEventListener("mouseleave", B));
+    h(), d?.stopOnHover && (t.addEventListener("mouseenter", T), t.addEventListener("mouseleave", B));
   }
 }
 function N(n) {
@@ -119,34 +124,34 @@ function N(n) {
 function M({
   message: n,
   type: e = "info",
-  position: b = "bottom-right",
+  position: c = "bottom-right",
   duration: p,
   acceptText: E = "Aceptar",
-  rejectText: i = "Cancelar",
-  html: C = !1,
-  options: h,
-  onAccept: w = () => {
+  rejectText: d = "Cancelar",
+  html: L = !1,
+  options: b,
+  onAccept: C = () => {
   },
   onReject: t = () => {
   },
-  onTimeout: d = () => {
+  onTimeout: m = () => {
   }
 }) {
-  const m = x(b), u = m.style.bottom && m.style.bottom !== "" ? "top" : "bottom", o = document.createElement("div");
-  o.className = `beep-notification ${e} ${u}`;
+  const u = x(c), v = u.style.bottom && u.style.bottom !== "" ? "top" : "bottom", o = document.createElement("div");
+  o.className = `beep-notification ${e} ${v}`;
   const a = document.createElement("div");
-  C ? a.innerHTML = n : a.textContent = n, o.appendChild(a);
-  const c = document.createElement("div");
-  c.className = "beep-actions";
+  L ? a.innerHTML = n : a.textContent = n, o.appendChild(a);
+  const l = document.createElement("div");
+  l.className = "beep-actions";
   const r = document.createElement("button");
   r.textContent = E, r.className = "beep-accept";
   const s = document.createElement("button");
-  s.textContent = i, s.className = "beep-reject", h?.reverseButtons ? (c.appendChild(r), c.appendChild(s)) : (c.appendChild(s), c.appendChild(r)), o.appendChild(c), m.appendChild(o), r.addEventListener("click", () => {
-    o.remove(), w();
+  s.textContent = d, s.className = "beep-reject", b?.reverseButtons ? (l.appendChild(r), l.appendChild(s)) : (l.appendChild(s), l.appendChild(r)), o.appendChild(l), u.appendChild(o), r.addEventListener("click", () => {
+    o.remove(), C();
   }), s.addEventListener("click", () => {
     o.remove(), t();
   }), p && setTimeout(() => {
-    o.classList.add("fade-out"), o.addEventListener("animationend", () => o.remove(), { once: !0 }), d();
+    o.classList.add("fade-out"), o.addEventListener("animationend", () => o.remove(), { once: !0 }), m();
   }, p);
 }
 const D = {

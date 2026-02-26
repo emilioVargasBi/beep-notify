@@ -1,6 +1,6 @@
 {
   "name": "beep-toast",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Framework-agnostic JavaScript notification system for web applications.",
   "license": "MIT",
   "author": "Emilio Vargas Millán",
