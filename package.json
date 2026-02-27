@@ -4,16 +4,32 @@
   "description": "Framework-agnostic JavaScript notification system for web applications.",
   "license": "MIT",
   "author": "Emilio Vargas Millán",
-  "main": "dist/beep-notify.js",
-  "module": "dist/beep-notify.mjs",
-  "types": "dist/index.d.ts",
+  "type": "module",
+  "main": "./dist/beep-notify.js",
+  "module": "./dist/beep-notify.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/beep-notify.mjs",
+      "require": "./dist/beep-notify.js"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "sideEffects": [
+    "./dist/style.css"
+  ],
   "files": [
     "dist"
   ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/emiliovar/beep-notify.git"
   },
   "devDependencies": {
     "sass": "^1.97.3",
