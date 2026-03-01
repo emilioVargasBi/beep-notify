@@ -3,7 +3,7 @@ import { ToastOptions, BeepType } from "./types";
 import { playSound } from "./sound";
 
 export function toast({
-  message,
+  message = "Notification",
   type = "info",
   position = "bottom-right",
   duration = null,
@@ -90,10 +90,7 @@ export function toast({
       startTime = Date.now();
 
       timeoutId = setTimeout(() => {
-        notif.classList.add("fade-out");
-        notif.addEventListener("animationend", () => notif.remove(), {
-          once: true,
-        });
+        removeToast();
       }, remaining);
 
       if (options?.showProgressBar) {
@@ -170,6 +167,20 @@ export function toast({
       notif.addEventListener("mouseenter", pauseTimer);
       notif.addEventListener("mouseleave", resumeTimer);
     }
+  }
+
+  const FADE_DURATION = 300; // ms
+
+  function removeToast() {
+    notif.classList.add("fade-out");
+
+    setTimeout(() => {
+      notif.remove();
+    }, FADE_DURATION);
+
+    notif.addEventListener("animationend", () => notif.remove(), {
+      once: true,
+    });
   }
 }
 
